@@ -1,15 +1,28 @@
 package model;
 
 public class Cliente {
-
+	int idCliente;
 	String nome;
 	String email;
 	String senha;
 	
-	public Cliente(String nome, String email, String senha) {
+	public Cliente(String nome, String email, String senha, int idCliente) {
+		this.idCliente = idCliente;
 		this.nome = nome;
 		this.email = email;
 		this.senha = senha;
+	}
+	
+	public Cliente() {
+		
+	}
+
+	public int getIdCliente() {
+		return idCliente;
+	}
+
+	public void setIdCliente(int idCliente) {
+		this.idCliente = idCliente;
 	}
 
 	public String getNome() {
@@ -36,6 +49,5 @@ public class Cliente {
 		this.senha = senha;
 	}
 	
-	
-	
+		
 }

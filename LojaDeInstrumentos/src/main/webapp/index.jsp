@@ -17,12 +17,12 @@
   </header>
   
   <main class="login-content">
-    <form action="login" method="POST"> <!-- Adicionado o formulário -->
+    <form action="login" method="POST">
       <div class="login-field">
         <label for="email">E-mail</label>
         <div class="input-wrapper">
           <span class="material-icons">email</span>
-          <input type="email" id="email" name="email" placeholder="Digite seu e-mail" required/> <!-- Adicionado name -->
+          <input type="email" id="email" name="email" placeholder="Digite seu e-mail" required/>
         </div>
       </div>
       
@@ -30,13 +30,13 @@
         <label for="password">Senha</label>
         <div class="input-wrapper">
           <span class="material-icons">lock</span>
-          <input type="password" id="password" name="password" placeholder="Digite sua senha" required/> <!-- Adicionado name -->
+          <input type="password" id="password" name="password" placeholder="Digite sua senha" required/> 
         </div>
       </div>
 
       <div class="login-actions">
         <a href="#" class="forgot-password">Esqueceu sua senha?</a>
-        <button type="submit">Entrar</button> <!-- O botão deve estar dentro do formulário -->
+        <button type="submit">Entrar</button>
       </div>
     </form>
   </main>

@@ -21,7 +21,7 @@
 			</div>
 
 			<div class="btn-welcome-container"> 
-				<button onclick="window.location.href='login.jsp'" class="btn-primary">Entrar</button>
+				<button onclick="window.location.href='index.jsp'" class="btn-primary">Entrar</button>
 				<a class="forgot-password">Esqueci minha senha</a>
 			</div>
     </div>
@@ -30,7 +30,7 @@
       <h1>Crie sua conta</h1>
       <p>Preencha seus dados</p>
 
-      <form action="<%= request.getContextPath() %>/createAccountServelet" method="POST"> <!-- Adicionado action -->
+      <form action="<%= request.getContextPath() %>/createAccountServelet" method="POST">
         <div class="input-group">
           <span class="material-icons">person</span>
           <input type="text" name="name" placeholder="Nome" required/>
@@ -49,7 +49,6 @@
         <button type="submit" class="btn-form-button">Cadastrar</button>
       </form>
       
-       <!-- Mensagem de erro caso tenha erro ao autenticar -->
       <div class="error-message">
         <%= request.getAttribute("errorMessage") != null ? request.getAttribute("errorMessage") : "" %>
       </div>
