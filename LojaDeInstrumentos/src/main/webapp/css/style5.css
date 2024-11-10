@@ -1,0 +1,183 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #E0C49E; 
+    margin: 0; 
+    padding: 0;
+    
+}
+
+
+
+/* BOTÃO INSTRUMENTOS e NAV */
+nav .logo {
+    max-height: 180px;
+    
+}
+
+
+
+nav {
+	 display: flex; /* Usando Flexbox para o layout */
+    align-items: center; /* Alinha verticalmente os itens ao centro */
+    background-color: #3C2921;
+    padding: 0.5px 550px;
+    }
+
+nav ul {
+    list-style: none;
+}
+
+nav ul li {
+    margin: 30px 15px;
+}
+
+nav ul li a {
+  color: #ffffff;
+  text-decoration: none;
+  border: 1px solid #e9f4dd;
+  padding: 10px 30px;
+  border-radius: 25px;
+  transition: background-color 0.3s, color 0.3s;
+  font-size: 20px;
+  font-family: 'Poppins', sans-serif;
+}
+
+nav ul li a:hover {
+  background-color: #E0C49E;
+}
+
+
+/* Banner */
+.banner {
+    position: relative;
+    text-align: center;
+    color: white;
+}
+
+.banner img {
+    width: 100%;
+    height: auto;
+}
+
+.banner-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.4); 
+    padding: 20px; 
+    border-radius: 10px; 
+}
+
+/* Estilo para o título (h1) */
+.banner-text h1 {
+    font-size: 48px; 
+    font-weight: bold; 
+    margin: 0; 
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Estilo para o parágrafo (p) */
+.banner-text p {
+    font-size: 24px; 
+    margin-top: 10px; 
+    font-family: 'Poppins', sans-serif;
+}
+
+.banner-text h1, .banner-text p {
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7); /* Sombra com suavidade */
+}
+
+
+/*Linha entre o NAV e o banner */
+.separator {
+    height: 5px; 
+    background-color: #E0C49E; 
+    margin: 0; 
+}
+
+
+
+/* Estilo do container dos instrumentos */
+main {
+    display: flex; 
+    flex-wrap: wrap; 
+    justify-content: space-between;
+    padding: 20px; 
+}
+
+/* Estilo para cada seção de instrumento */
+.instrument-section {
+    flex: 0 1 calc(14% - 2px);
+    margin: 8px;
+    text-align: center;
+}
+
+/* Estilo para o card do instrumento */
+.instrument-card {
+	margin-top: 25px;
+    background-color: #f9f9f9; 
+    padding: 8px;
+    border-radius: 8px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+}
+
+/* Estilo para a imagem dentro do card */
+.instrument-card img {
+    height: 190px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+/* Estilo para o texto e o botão abaixo do card */
+.instrument-section p {
+    font-size: 18px; 
+    font-weight: bold; 
+    color: #333;  
+    margin-top: 15px;  
+    margin-bottom: 10px;  
+    text-transform: uppercase; 
+    letter-spacing: 1px;  
+    text-align: center;  
+    font-family: 'Poppins', sans-serif;  
+}
+
+.instrument-section button {
+    padding: 10px 40px; 
+    background-color: #BF6734;
+    color: white;
+    border: none; 
+    border-radius: 25px; 
+    cursor: pointer; 
+    font-family: 'Poppins', sans-serif;
+}
+
+.instrument-section button:hover {
+    background-color: #e68a00; 
+}
+
+
+
+
+
+/* Código para alterar a cor dos cards */
+.instrument-section:nth-child(1) .instrument-card {
+    background-color: #CF8E4B;
+}
+.instrument-section:nth-child(2) .instrument-card {
+    background-color: #D58358;
+}
+.instrument-section:nth-child(3) .instrument-card {
+    background-color: #302420;
+}
+.instrument-section:nth-child(4) .instrument-card {
+    background-color: #A84627; 
+}
+.instrument-section:nth-child(5) .instrument-card {
+    background-color: #F6B144; 
+}

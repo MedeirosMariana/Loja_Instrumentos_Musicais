@@ -1,0 +1,153 @@
+/* Configurações básicas */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background-color: #FFF;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+label {
+  color: #8C441B !important;
+  font-size: 12px;
+}
+
+/* Estilo do cabeçalho */
+.login-header {
+  display: flex;
+  background-color: #8C441B;
+  padding: 15px 50px;
+  text-align: center;
+  flex-direction: row;
+  align-items: center;
+}
+
+.login-header h1 {
+  font-size: 24px;
+  color: #FFF; 
+  width: 100%;
+}
+
+.login-header img {
+  max-width: 100px;
+  margin-bottom: 10px;
+}
+
+/* Estilo do conteúdo principal */
+.login-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+}
+
+.login-field {
+  margin-bottom: 20px;
+  width: 100%; /* Mantém 100% da largura do pai */
+  max-width: 700px; /* Aumenta a largura máxima para 700px */
+}
+
+.login-field label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #333;
+}
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #fff;
+  border: 2px solid #D4C6C6;
+  gap: 15px;
+  padding-right: 200px;
+}
+
+.input-wrapper span {
+  color: #FFF;
+  background-color: #D4C6C6;
+  padding: 15px;
+}
+
+.input-wrapper input {
+  flex: 1;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+/* Estilo das ações de login */
+.login-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  margin-top: 20px;
+}
+
+.forgot-password {
+  color: #8C441B;
+  text-decoration: none;
+  font-size: 12px;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
+
+button, .login-footer button {
+  background-color: #8C441B;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+/* Estilo do rodapé */
+.login-footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+
+  padding: 15px;
+  text-align: center;
+  border-top: 1px solid #ccc;
+  background-color: #8C441B;
+}
+
+.login-footer span {
+  font-size: 14px;
+  color: #FFFF;
+}
+
+.login-footer button {
+  font-size: 14px;
+  color: #FFFF;
+  background-color: #D9751E;
+}
+
+/* Estilo mensagem de erro */
+.error-message {
+    color: #ff4d4d; 
+    background-color: #ffe6e6; 
+    border: 1px solid #ff4d4d; 
+    padding: 10px; 
+    margin-top: 15px; 
+    border-radius: 5px; 
+    text-align: center; 
+    font-size: 14px;
+}

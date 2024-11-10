@@ -1,0 +1,70 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background: #DCBC93;
+}
+
+.banner {
+    position: relative;
+    text-align: center;
+    color: white;
+    margin: 0;
+    padding: 0;
+}
+
+.banner-img {
+    width: 100%;
+    height: auto;
+    display: block; /* Remove o espaço em branco ao redor da imagem */
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Cria 2 colunas de tamanho igual */
+    gap: 20px; /* Espaçamento entre as colunas */
+    width: 40%; /* Reduz o tamanho do grid para 50% da largura da tela */
+    padding: 20px;
+    margin: 20px auto; /* Centraliza horizontalmente */
+    text-align: center; /* Alinha o conteúdo centralmente */
+}
+
+.grid-item {
+    display: flex;
+    flex-direction: column; /* Organiza os botões em uma coluna */
+    gap: 10px; /* Espaçamento entre os botões */
+}
+
+.title-adm{
+	text-align: center;
+	margin-top: 30px;
+	color: white;
+	font-family: "Poppins", sans-serif;
+	text-shadow: 
+        -1px -1px 0 black,  
+        1px -1px 0 black,
+        -1px 1px 0 black,
+        1px 1px 0 black; /* Cria borda preta ao redor das letras */	
+}
+
+.buttom-style{
+	padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background: #BF6734;
+    border-radius: 10px;
+    color: white;
+    border: none;
+    padding-top: 15px;
+    padding-bottom: 15px;  
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+     margin: 0px 20px 30px 20px; /* Espaço entre os botões */
+}
+
+/*.buttom-style:last-child {
+    margin-bottom: 20px; /* Remove o margin do último botão para evitar espaçamento extra 
+}*/
+
+
