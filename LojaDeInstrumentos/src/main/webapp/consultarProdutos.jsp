@@ -1,9 +1,10 @@
 <%@ page import="model.Produto" %>
+<%@ page import="java.util.List" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     
 <%
-	Produto[] produtos = (Produto[]) session.getAttribute("produtos");
+	List<Produto> produtos = (List<Produto>) request.getAttribute("produtos");
 
 %>
 
@@ -52,37 +53,34 @@
                 </tr>
             </thead>
             <tbody>
-                 <% 
-			        if (produtos != null) {
-			            for (int i = 0; i < produtos.length; i++) {
-			                Produto produto = produtos[i];
-			                if (produto != null) {
-						        %>
-									<tr>
-						          		<td><%= produto.getCategoria() %></td>
-						                <td><%= produto.getMarca() %></td>
-						                <td><%= produto.getModelo() %></td>
-						                <td><%= produto.getCondicao() %></td>
-						                <td><%= produto.getEstoque() %></td>
-						                <td><%= produto.getPreco() %></td>
-						                <td>
-							                <form action="deletarProduto.jsp" method="post">
-							                	<input type="hidden" name="indice" value="<%= i %>">
-							                    <button type="submit">Deletar</button>
-							                </form>
-						                </td>
-						           </tr>
-						        <%
-			                }
-			            }
-			        } else {
-				        %>
-				            <tr>
-				                <td colspan="7">Nenhum produto cadastrado.</td>
-				            </tr>
-				        <%
-			        }
-			     %>
+                <% 
+                    if (produtos != null && !produtos.isEmpty()) {
+                        for (Produto produto : produtos) {
+                %>
+                            <tr>
+                                <td><%= produto.getCategoria() %></td>
+                                <td><%= produto.getMarca() %></td>
+                                <td><%= produto.getModelo() %></td>
+                                <td><%= produto.getCondicao() %></td>
+                                <td><%= produto.getEstoque() %></td>
+                                <td><%= produto.getPreco() %></td>
+                                <td>
+                                    <form action="deletarProduto.jsp" method="post">
+                                        <input type="hidden" name="produtoId" value="<%= produto.getIdProduto() %>">
+                                        <button type="submit">Deletar</button>
+                                    </form>
+                                </td>
+                            </tr>
+                <% 
+                        }
+                    } else {
+                %>
+                        <tr>
+                            <td colspan="7">Nenhum produto cadastrado.</td>
+                        </tr>
+                <% 
+                    }
+                %>
             </tbody>
         </table>
     </div>

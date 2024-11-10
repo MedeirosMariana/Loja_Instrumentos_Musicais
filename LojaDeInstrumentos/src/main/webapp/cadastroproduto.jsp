@@ -20,7 +20,7 @@
     </header>
     <div class="container">     
         <div class="container-cadastro-produto">
-            <form action="cadastroproduto-response.jsp" method="post">
+            <form action="produtos/cadastro" method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="nomeProduto">Nome do Produto</label>
                     <input type="text" id="nomeProduto" name="nomeProduto" placeholder="Digite o nome do Produto">
@@ -69,7 +69,7 @@
                     <textarea id="descricao" name="descricao" placeholder="Detalhes sobre o produto, como materiais, características técnicas."></textarea>
                 </div>
                 <div class="form-group">
-                    <button type="submit" value="Cadastrar">Cadastrar Produto</button>
+                    <button type="submit">Cadastrar Produto</button>
                 </div>
             </form>
         </div>

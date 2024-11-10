@@ -1,17 +1,19 @@
 package model;
 
 public class Produto {
+	int idProduto;
 	String nomeProduto;
 	String categoria;
 	String descricao;
 	String marca;
 	String modelo;
 	String condicao;
+	String imagemBase64;
 	int estoque;
 	double preco;
 	
 	public Produto(String nomeProduto, String categoria, String descricao, String marca, String modelo, String condicao,
-			int estoque, double preco) {
+			int estoque, double preco, String imagemBase64, int idProduto) {
 		this.nomeProduto = nomeProduto;
 		this.categoria = categoria;
 		this.descricao = descricao;
@@ -20,6 +22,26 @@ public class Produto {
 		this.condicao = condicao;
 		this.estoque = estoque;
 		this.preco = preco;
+		this.imagemBase64 = imagemBase64;
+		this.idProduto = idProduto;
+	}
+	
+	public Produto() {}
+
+	public int getIdProduto() {
+		return idProduto;
+	}
+
+	public void setIdProduto(int idProduto) {
+		this.idProduto = idProduto;
+	}
+
+	public String getImagemBase64() {
+		return imagemBase64;
+	}
+
+	public void setImagemBase64(String imagemBase64) {
+		this.imagemBase64 = imagemBase64;
 	}
 
 	public String getNomeProduto() {

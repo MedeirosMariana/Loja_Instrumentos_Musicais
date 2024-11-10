@@ -1,15 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="model.Produto" %>
+<%@ page import="dao.ProdutoDAO" %>
+<%@ page import="java.sql.SQLException" %>
 <%
-    String indiceStr = request.getParameter("indice");
-    int indice = Integer.parseInt(indiceStr);
-
-
-    Produto[] produtos = (Produto[]) session.getAttribute("produtos");
-
-    if (produtos != null && indice >= 0 && indice < produtos.length) {
-        produtos[indice] = null; 
-    }
-
-    response.sendRedirect("consultarProdutos.jsp");
+	String idProdutoStr = request.getParameter("idProduto");
+	if (idProdutoStr != null) {
+	    try {
+	        int idProduto = Integer.parseInt(idProdutoStr);
+	
+	        ProdutoDAO produtoDAO = new ProdutoDAO();
+	
+	        boolean deletado = produtoDAO.deleteById(idProduto);
+	
+	        if (deletado) {
+	            response.sendRedirect("produtos/listar"); 
+	        } else {
+	            out.println("<p>Erro ao deletar o produto.</p>");
+	        }
+	    } catch (SQLException | NumberFormatException e) {
+	        out.println("<p>Erro: " + e.getMessage() + "</p>");
+	    }
+	}
 %>
