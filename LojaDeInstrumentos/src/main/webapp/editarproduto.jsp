@@ -27,6 +27,7 @@
                     ProdutoDAO produtoDAO = new ProdutoDAO();
                     Produto produto = produtoDAO.selectById(idProduto);
                 %>
+                <input type="hidden" name="idProduto" value="<%= produto.getIdProduto() %>">
                 <div class="form-group">
                     <label for="nomeProduto">Nome do Produto</label>
                     <input type="text" id="nomeProduto" name="nomeProduto" value="<%= produto.getNomeProduto() %>" placeholder="Digite o nome do Produto">

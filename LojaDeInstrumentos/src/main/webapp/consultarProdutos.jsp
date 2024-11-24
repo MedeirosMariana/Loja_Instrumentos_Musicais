@@ -65,8 +65,9 @@
                                 <td><%= produto.getEstoque() %></td>
                                 <td><%= produto.getPreco() %></td>
                                 <td>
-                                    <form action="deletarProduto.jsp" method="post">
-                                        <input type="hidden" name="produtoId" value="<%= produto.getIdProduto() %>">
+                                    <a href="produtos/editar?idProduto=<%= produto.getIdProduto() %>">Editar</a>
+                                    <form action="produtos/deletar" method="post" style="display:inline;">
+                                        <input type="hidden" name="idProduto" value="<%= produto.getIdProduto() %>">
                                         <button type="submit">Deletar</button>
                                     </form>
                                 </td>

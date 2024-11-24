@@ -15,22 +15,18 @@ import java.util.List;
 import dao.ProdutoDAO;
 import model.Produto;
 
-import dao.ProdutoDAO;
-
-@WebServlet(name="produtos", urlPatterns={"/produtos","/produtos/novo","/produtos/cadastro","/produtos/listar"})
+@WebServlet(name = "produtos", urlPatterns = { "/produtos", "/produtos/novo", "/produtos/cadastro", "/produtos/listar", "/produtos/deletar", "/produtos/editar", "/produtos/atualizar" })
 public class ProdutoController extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-	private ProdutoDAO produtoDAO;
+    private static final long serialVersionUID = 1L;
+    private ProdutoDAO produtoDAO;
 
     public ProdutoController() {
-        // TODO Auto-generated constructor stub
-    	produtoDAO = new ProdutoDAO();
+        produtoDAO = new ProdutoDAO();
     }
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		String action = request.getServletPath();
-		try {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getServletPath();
+        try {
             switch (action) {
                 case "/produtos/listar":
                     listar(request, response);
@@ -51,41 +47,53 @@ public class ProdutoController extends HttpServlet {
         } catch (SQLException ex) {
             throw new ServletException(ex);
         }
-	}
-	
-	
-	private void listar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+    }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getServletPath();
+        try {
+            if ("/produtos/cadastro".equals(action)) {
+                cadastrarProduto(request, response);
+            } else if ("/produtos/atualizar".equals(action)) {
+                atualizarProduto(request, response);
+            }
+        } catch (SQLException ex) {
+            throw new ServletException(ex);
+        }
+    }
+
+    private void listar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         List<Produto> produtos = produtoDAO.selectAll();
-        request.setAttribute("produtos", produtos); 
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/views/produtos/consultarProdutos.jsp"); 
+        request.setAttribute("produtos", produtos);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/consultarProdutos.jsp");
         dispatcher.forward(request, response);
     }
-	
-	private void editarProduto(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-	    int idProduto = Integer.parseInt(request.getParameter("idProduto"));
-	    Produto produto = produtoDAO.selectById(idProduto);
-	    request.setAttribute("produto", produto);
-	    RequestDispatcher dispatcher = request.getRequestDispatcher("/views/produtos/editarProduto.jsp");
-	    dispatcher.forward(request, response);
-	}
-	
-	private void deletarProduto(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
+
+    private void editarProduto(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+        int idProduto = Integer.parseInt(request.getParameter("idProduto"));
+        Produto produto = produtoDAO.selectById(idProduto);
+        request.setAttribute("produto", produto);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/editarProduto.jsp");
+        dispatcher.forward(request, response);
+    }
+
+    private void deletarProduto(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
         int idProduto = Integer.parseInt(request.getParameter("idProduto"));
         boolean deleted = produtoDAO.deleteById(idProduto);
-        
+
         if (deleted) {
             response.sendRedirect("produtos/listar");
         } else {
             response.sendRedirect("produtos/listar?error=true");
         }
     }
-	
-	private void novoProduto(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/views/produtos/cadastroProduto.jsp");
+
+    private void novoProduto(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/cadastroProduto.jsp");
         dispatcher.forward(request, response);
     }
-	
-	private void cadastrarProduto(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+    private void cadastrarProduto(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         String nomeProduto = request.getParameter("nomeProduto");
         String categoria = request.getParameter("categoria");
         String marca = request.getParameter("marca");
@@ -94,8 +102,7 @@ public class ProdutoController extends HttpServlet {
         String condicao = request.getParameter("condicao");
         String qtdEstoque = request.getParameter("qtdEstoque");
         String descricao = request.getParameter("descricao");
-        
-        // Processando a foto (convertendo para Base64)
+
         String fotoBase64 = null;
         Part fotoPart = request.getPart("fotos");
         if (fotoPart != null) {
@@ -103,8 +110,7 @@ public class ProdutoController extends HttpServlet {
             byte[] bytes = inputStream.readAllBytes();
             fotoBase64 = Base64.getEncoder().encodeToString(bytes);
         }
-        
-        // Criando o produto e setando os valores
+
         Produto produto = new Produto();
         produto.setNomeProduto(nomeProduto);
         produto.setCategoria(categoria);
@@ -115,12 +121,9 @@ public class ProdutoController extends HttpServlet {
         produto.setEstoque(Integer.parseInt(qtdEstoque));
         produto.setDescricao(descricao);
         produto.setImagemBase64(fotoBase64);
-        
-        // Salvando o produto no banco
-        ProdutoDAO produtoDAO = new ProdutoDAO();
+
         boolean produtoCadastrado = produtoDAO.insert(produto);
-        
-        // Verificando se a inserção foi bem-sucedida
+
         if (produtoCadastrado) {
             response.sendRedirect("produtos/listar");
         } else {
@@ -128,50 +131,43 @@ public class ProdutoController extends HttpServlet {
         }
     }
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String action = request.getServletPath();
-        if ("/produtos/cadastro".equals(action)) {
-            cadastrarProduto(request, response);
-        } else if ("/produtos/atualizar".equals(action)) {
-            int idProduto = Integer.parseInt(request.getParameter("idProduto"));
-            String nomeProduto = request.getParameter("nomeProduto");
-            String categoria = request.getParameter("categoria");
-            String marca = request.getParameter("marca");
-            String modelo = request.getParameter("modelo");
-            String preco = request.getParameter("preco");
-            String condicao = request.getParameter("condicao");
-            String qtdEstoque = request.getParameter("qtdEstoque");
-            String descricao = request.getParameter("descricao");
-            
-            String fotoBase64 = null;
-            Part fotoPart = request.getPart("fotos");
-            if (fotoPart != null) {
-                InputStream inputStream = fotoPart.getInputStream();
-                byte[] bytes = inputStream.readAllBytes();
-                fotoBase64 = Base64.getEncoder().encodeToString(bytes);
-            }
-            
-            Produto produto = new Produto();
-            produto.setIdProduto(idProduto);
-            produto.setNomeProduto(nomeProduto);
-            produto.setCategoria(categoria);
-            produto.setMarca(marca);
-            produto.setModelo(modelo);
-            produto.setPreco(Double.parseDouble(preco));
-            produto.setCondicao(condicao);
-            produto.setEstoque(Integer.parseInt(qtdEstoque));
-            produto.setDescricao(descricao);
-            produto.setImagemBase64(fotoBase64);
-            
-            ProdutoDAO produtoDAO = new ProdutoDAO();
-            boolean produtoAtualizado = produtoDAO.updateById(produto);
+    private void atualizarProduto(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+        int idProduto = Integer.parseInt(request.getParameter("idProduto"));
+        String nomeProduto = request.getParameter("nomeProduto");
+        String categoria = request.getParameter("categoria");
+        String marca = request.getParameter("marca");
+        String modelo = request.getParameter("modelo");
+        String preco = request.getParameter("preco");
+        String condicao = request.getParameter("condicao");
+        String qtdEstoque = request.getParameter("qtdEstoque");
+        String descricao = request.getParameter("descricao");
 
-            if (produtoAtualizado) {
-                response.sendRedirect("produtos/listar");
-            } else {
-                response.sendRedirect("produtos/atualizar?idProduto=" + idProduto + "&error=true");
-            }
+        String fotoBase64 = null;
+        Part fotoPart = request.getPart("fotos");
+        if (fotoPart != null) {
+            InputStream inputStream = fotoPart.getInputStream();
+            byte[] bytes = inputStream.readAllBytes();
+            fotoBase64 = Base64.getEncoder().encodeToString(bytes);
         }
-	}
 
+        Produto produto = new Produto();
+        produto.setIdProduto(idProduto);
+        produto.setNomeProduto(nomeProduto);
+        produto.setCategoria(categoria);
+        produto.setMarca(marca);
+        produto.setModelo(modelo);
+        produto.setPreco(Double.parseDouble(preco));
+        produto.setCondicao(condicao);
+        produto.setEstoque(Integer.parseInt(qtdEstoque));
+        produto.setDescricao(descricao);
+        produto.setImagemBase64(fotoBase64);
+
+        boolean produtoAtualizado = produtoDAO.updateById(produto);
+
+        if (produtoAtualizado) {
+            response.sendRedirect("produtos/listar");
+        } else {
+            response.sendRedirect("produtos/atualizar?idProduto=" + idProduto + "&error=true");
+        }
+    }
 }
