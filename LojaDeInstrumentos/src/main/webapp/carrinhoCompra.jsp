@@ -43,11 +43,11 @@
 
           <div class="item-actions">
             <button class="edit-btn">
-              <img src="imagens/edit-icon.png' />" alt="" />
+              <img src="imagens/edit-icon.png" alt="" />
             </button>
 
             <button class="delete-btn">
-              <img src="imagens/delete-icon.png' />" alt="" />
+              <img src="imagens/delete-icon.png" alt="" />
             </button>
           </div>
         </div>
