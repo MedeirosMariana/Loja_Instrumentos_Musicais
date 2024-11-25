@@ -20,7 +20,7 @@
     </header>
     <div class="container">     
         <div class="container-cadastro-produto">
-            <form action="produtos/cadastro" method="post" enctype="multipart/form-data">
+            <form action="produtos/cadastro" method="post">
                 <div class="form-group">
                     <label for="nomeProduto">Nome do Produto</label>
                     <input type="text" id="nomeProduto" name="nomeProduto" placeholder="Digite o nome do Produto">
@@ -61,8 +61,8 @@
                     <input type="number" id="qtdEstoque" name="qtdEstoque" placeholder="Digite a qtd em estoque">
                 </div>
                 <div class="form-group">
-                    <label for="fotos">Fotos do Produto</label>
-                    <input type="file" id="fotos" name="fotos">
+                    <label for="fotoUrl">URL da Imagem:</label>
+                    <input type="text" id="fotoUrl" name="fotoUrl" required><br>
                 </div>
                 <div class="form-group descricao">
                     <label for="descricao">Descrição</label>

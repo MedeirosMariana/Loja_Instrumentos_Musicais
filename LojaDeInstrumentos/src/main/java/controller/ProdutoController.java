@@ -7,9 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
-import java.io.InputStream;
 import java.sql.SQLException;
-import java.util.Base64;
 import java.util.List;
 
 import dao.ProdutoDAO;
@@ -102,14 +100,7 @@ public class ProdutoController extends HttpServlet {
         String condicao = request.getParameter("condicao");
         String qtdEstoque = request.getParameter("qtdEstoque");
         String descricao = request.getParameter("descricao");
-
-        String fotoBase64 = null;
-        Part fotoPart = request.getPart("fotos");
-        if (fotoPart != null) {
-            InputStream inputStream = fotoPart.getInputStream();
-            byte[] bytes = inputStream.readAllBytes();
-            fotoBase64 = Base64.getEncoder().encodeToString(bytes);
-        }
+        String fotoUrl = request.getParameter("fotoUrl");
 
         Produto produto = new Produto();
         produto.setNomeProduto(nomeProduto);
@@ -120,7 +111,7 @@ public class ProdutoController extends HttpServlet {
         produto.setCondicao(condicao);
         produto.setEstoque(Integer.parseInt(qtdEstoque));
         produto.setDescricao(descricao);
-        produto.setImagemBase64(fotoBase64);
+        produto.setImagemBase64(fotoUrl);
 
         boolean produtoCadastrado = produtoDAO.insert(produto);
 
@@ -141,14 +132,7 @@ public class ProdutoController extends HttpServlet {
         String condicao = request.getParameter("condicao");
         String qtdEstoque = request.getParameter("qtdEstoque");
         String descricao = request.getParameter("descricao");
-
-        String fotoBase64 = null;
-        Part fotoPart = request.getPart("fotos");
-        if (fotoPart != null) {
-            InputStream inputStream = fotoPart.getInputStream();
-            byte[] bytes = inputStream.readAllBytes();
-            fotoBase64 = Base64.getEncoder().encodeToString(bytes);
-        }
+        String fotoUrl = request.getParameter("fotoUrl");
 
         Produto produto = new Produto();
         produto.setIdProduto(idProduto);
@@ -160,7 +144,7 @@ public class ProdutoController extends HttpServlet {
         produto.setCondicao(condicao);
         produto.setEstoque(Integer.parseInt(qtdEstoque));
         produto.setDescricao(descricao);
-        produto.setImagemBase64(fotoBase64);
+        produto.setImagemBase64(fotoUrl);
 
         boolean produtoAtualizado = produtoDAO.updateById(produto);
 
