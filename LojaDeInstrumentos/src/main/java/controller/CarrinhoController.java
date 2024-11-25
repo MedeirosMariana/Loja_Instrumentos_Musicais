@@ -63,7 +63,7 @@ public class CarrinhoController extends HttpServlet {
     private void listarItens(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         List<Carrinho> itensCarrinho = carrinhoDAO.selectAll();
         request.setAttribute("itensCarrinho", itensCarrinho);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/consultarCarrinho.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/carrinhoCompra.jsp");
         dispatcher.forward(request, response);
     }
 

@@ -1,3 +1,12 @@
+<%@ page import="model.Carrinho" %>
+<%@ page import="java.util.List" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<%
+    List<Carrinho> itensCarrinho = (List<Carrinho>) request.getAttribute("itensCarrinho");
+    double totalGeral = 0;
+%>
+
 <!DOCTYPE html>
 
 <html lang="pt-br">
@@ -12,7 +21,6 @@
 </head>
 <body>
   <div class="container">
-    <!-- Cabeçalho -->
     <header>
       <div class="logo">
         <img src="imagens/logo.png" alt="" />
@@ -20,7 +28,6 @@
       <h1>Carrinho de Compras</h1>
     </header>
 
-    <!-- Conteúdo Principal -->
     <main>
       <section class="cart-items">
         <div class="item-header">
@@ -30,47 +37,50 @@
           <span></span>
         </div>
 
+        <%
+          if (itensCarrinho != null && !itensCarrinho.isEmpty()) {
+              for (Carrinho item : itensCarrinho) {
+                  totalGeral += item.getPrecoTotal();
+        %>
         <div class="cart-item">
-          <span class="item-details">Guitarra Tagima Woodstock TW-61 – Fiesta Red</span>
-
-          <span class="label">R$ 1.385,10</span>
-
+          <span class="item-details"><%= item.getNomeProduto() %></span>
+          <span class="label">R$ <%= String.format("%.2f", item.getPrecoTotal()) %></span>
           <div class="item-quantity">
-            <button class="quantity-btn">-</button>
-            <input type="text" value="1" readonly />
-            <button class="quantity-btn">+</button>
+            <form action="<%= request.getContextPath() %>/carrinho/atualizar" method="post" style="display: inline;">
+              <input type="hidden" name="idCarrinho" value="<%= item.getIdCarrinho() %>">
+              <button type="submit" name="quantidade" value="<%= item.getQuantidade() - 1 %>" class="quantity-btn">-</button>
+              <input type="text" value="<%= item.getQuantidade() %>" readonly />
+              <button type="submit" name="quantidade" value="<%= item.getQuantidade() + 1 %>" class="quantity-btn">+</button>
+            </form>
           </div>
-
           <div class="item-actions">
-            <button class="edit-btn">
-              <img src="imagens/edit-icon.png" alt="" />
-            </button>
-
-            <button class="delete-btn">
-              <img src="imagens/delete-icon.png" alt="" />
-            </button>
+            <form action="<%= request.getContextPath() %>/carrinho/remover" method="post" style="display: inline;">
+              <input type="hidden" name="idCarrinho" value="<%= item.getIdCarrinho() %>">
+              <button type="submit" class="delete-btn">
+                <img src="imagens/delete-icon.png" alt="Remover" />
+              </button>
+            </form>
           </div>
         </div>
+        <% 
+              }
+          } else { 
+        %>
+        <p>Carrinho vazio.</p>
+        <% } %>
       </section>
 
-      <!-- Resumo -->
       <aside class="summary">
         <h1>Resumo</h1>
-
         <div class="summary-detail">
-          <span>Sub-total</span>
-          <span>R$ 1.385,10</span>
-        </div>
-
-        <div class="summary-total">
           <span>Total geral</span>
-          <span>R$ 1.385,10</span>
+          <span>R$ <%= String.format("%.2f", totalGeral) %></span>
         </div>
         <button class="checkout-btn">Finalizar Compra</button>
       </aside>
     </main>
 
-    <!-- Rodapé -->
+    <!-- RodapÃ© -->
     <footer></footer>
   </div>
 </body>
