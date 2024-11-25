@@ -115,10 +115,10 @@ main {
   border: none;
   background-color: transparent;
   color: white;
+}
 
-  &:focus {
-    outline: none;
-  }
+.item-quantity input:focus {
+  outline: none;
 }
 
 .quantity-btn {
@@ -147,10 +147,10 @@ main {
   color: red;
 }
 
-
 /* Resumo */
 .summary {
-  flex: 1;
+  flex: 0; 
+  max-height: 500px;
   padding: 20px;
   background-color: rgba(140, 68, 27, 0.6);
   border-radius: 10px;
