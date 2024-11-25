@@ -40,10 +40,11 @@ body {
 		</div>
 
 		<div>
-			<button type="submit"
-				style="background: none; border: none; color: white; cursor: pointer;">
-				<span class="material-icons"> shopping_cart </span>
-			</button>
+			<a href="<%= request.getContextPath() %>/carrinho/listar" style="text-decoration: none;">
+			    <button type="button" style="background: none; border: none; color: white; cursor: pointer;">
+			        <span class="material-icons">shopping_cart</span>
+			    </button>
+			</a>
 
 			<button type="submit" style="background: none; border: none; color: white; cursor: pointer;">
 				<span class="material-icons">
