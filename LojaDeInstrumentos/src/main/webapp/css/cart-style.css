@@ -33,6 +33,7 @@ span {
   display: flex;
   flex-direction: column;
   margin: 0 auto;
+  width: 100%;
 }
 
 /* Cabeçalho */
@@ -61,19 +62,18 @@ main {
   display: flex;
   gap: 20px;
   padding: 20px;
-  width: 100%; 
+  width: 100%;
 }
 
 /* Itens do carrinho */
 .cart-items {
-  flex: 3;
-  width: 100%; 
+  flex: 1; 
+  width: 100%;
 }
 
 /* Cabeçalho do item - Item Header */
 .item-header {
   display: grid;
-  /* 4 colunas com o mesmo layout */
   grid-template-columns: 3fr 1fr 1fr 1fr; 
   align-items: center;
   gap: 10px;
@@ -87,12 +87,11 @@ main {
 /* Itens do carrinho (como os itens individuais) */
 .cart-item {
   display: grid;
-  /* Quatro colunas: Item, Preço, Qtd, Ações */
   grid-template-columns: 3fr 1fr 1fr 1fr;
   align-items: center;
   gap: 10px;
   padding: 10px 0;
-  width: 100%; 
+  width: 100%;
 }
 
 .item-header {
@@ -174,8 +173,8 @@ main {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  width: 100%;
 }
-
 .summary h1 {
   text-align: center;
   margin-bottom: 20px;
