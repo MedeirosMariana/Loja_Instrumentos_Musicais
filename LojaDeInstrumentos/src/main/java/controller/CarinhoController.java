@@ -1,84 +1,126 @@
 package controller;
 
-import dao.CarrinhoDAO;
-import model.ItemCarrinho;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.RequestDispatcher;
 import java.io.IOException;
-import com.google.gson.Gson;
+import java.sql.SQLException;
+import java.util.List;
 
-@WebServlet("/carrinho")
-public class CarrinhoServlet extends HttpServlet {
+import dao.CarrinhoDAO;
+import model.Carrinho;
 
-    private final CarrinhoDAO carrinhoDAO = new CarrinhoDAO();
-    private final Gson gson = new Gson(); 
+@WebServlet(name = "carrinho", urlPatterns = { "/carrinho", "/carrinho/adicionar", "/carrinho/listar", "/carrinho/atualizar", "/carrinho/remover" })
+public class CarrinhoController extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+    private CarrinhoDAO carrinhoDAO;
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Adicionar item no carrinho
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-
-        ItemCarrinho item = gson.fromJson(request.getReader(), ItemCarrinho.class); 
-        try {
-            carrinhoDAO.adicionarItem(item);
-            response.getWriter().write("{\"message\": \"Item adicionado com sucesso!\"}");
-        } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().write("{\"error\": \"Erro ao adicionar item: " + e.getMessage() + "\"}");
-        }
+    public CarrinhoController() {
+        carrinhoDAO = new CarrinhoDAO();
     }
 
-    @Override
-    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Atualizar quantidade de item no carrinho
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-
-        ItemCarrinho item = gson.fromJson(request.getReader(), ItemCarrinho.class); // Leitura do JSON do corpo da requisição
-
-        try {
-            carrinhoDAO.atualizarQuantidade(item);
-            response.getWriter().write("{\"message\": \"Quantidade do item atualizada!\"}");
-        } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().write("{\"error\": \"Erro ao atualizar item: " + e.getMessage() + "\"}");
-        }
-    }
-
-    @Override
-    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Remover item do carrinho
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-
-        int idCarrinho = Integer.parseInt(request.getParameter("idCarrinho")); // Obtendo o id do carrinho da URL
-
-        try {
-            carrinhoDAO.removerItem(idCarrinho);
-            response.getWriter().write("{\"message\": \"Item removido com sucesso!\"}");
-        } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().write("{\"error\": \"Erro ao remover item: " + e.getMessage() + "\"}");
-        }
-    }
-
-    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Listar itens do carrinho
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-
+        String action = request.getServletPath();
         try {
-            // Convertendo a lista de itens para JSON
-            String jsonResponse = gson.toJson(carrinhoDAO.listarItens());
-            response.getWriter().write(jsonResponse);
-        } catch (Exception e) {
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().write("{\"error\": \"Erro ao listar itens: " + e.getMessage() + "\"}");
+            switch (action) {
+                case "/carrinho/listar":
+                    listarItens(request, response);
+                    break;
+                case "/carrinho/remover":
+                    removerItem(request, response);
+                    break;
+                default:
+                    listarItens(request, response);
+                    break;
+            }
+        } catch (SQLException ex) {
+            throw new ServletException(ex);
+        }
+    }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getServletPath();
+        try {
+            switch (action) {
+                case "/carrinho/adicionar":
+                    adicionarItem(request, response);
+                    break;
+                case "/carrinho/atualizar":
+                    atualizarItem(request, response);
+                    break;
+                default:
+                    response.sendRedirect(request.getContextPath() + "/carrinho/listar");
+                    break;
+            }
+        } catch (SQLException ex) {
+            throw new ServletException(ex);
+        }
+    }
+
+    private void listarItens(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+        List<Carrinho> itensCarrinho = carrinhoDAO.selectAll();
+        request.setAttribute("itensCarrinho", itensCarrinho);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/consultarCarrinho.jsp");
+        dispatcher.forward(request, response);
+    }
+
+    private void adicionarItem(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+        try {
+            int idProduto = Integer.parseInt(request.getParameter("idProduto"));
+            int quantidade = Integer.parseInt(request.getParameter("quantidade"));
+
+            Carrinho item = new Carrinho();
+            item.setIdProduto(idProduto);
+            item.setQuantidade(quantidade);
+
+            boolean itemAdicionado = carrinhoDAO.adicionarItem(item);
+
+            if (itemAdicionado) {
+                response.sendRedirect(request.getContextPath() + "/carrinho/listar");
+            } else {
+                response.sendRedirect(request.getContextPath() + "/carrinho/listar?error=addFailed");
+            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            response.sendRedirect(request.getContextPath() + "/carrinho/listar?error=invalidInput");
+        }
+    }
+
+    private void atualizarItem(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+        try {
+            int idCarrinho = Integer.parseInt(request.getParameter("idCarrinho"));
+            int novaQuantidade = Integer.parseInt(request.getParameter("quantidade"));
+
+            boolean itemAtualizado = carrinhoDAO.atualizarQuantidade(idCarrinho, novaQuantidade);
+
+            if (itemAtualizado) {
+                response.sendRedirect(request.getContextPath() + "/carrinho/listar");
+            } else {
+                response.sendRedirect(request.getContextPath() + "/carrinho/listar?error=updateFailed");
+            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            response.sendRedirect(request.getContextPath() + "/carrinho/listar?error=invalidInput");
+        }
+    }
+
+    private void removerItem(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+        try {
+            int idCarrinho = Integer.parseInt(request.getParameter("idCarrinho"));
+
+            boolean itemRemovido = carrinhoDAO.removerItem(idCarrinho);
+
+            if (itemRemovido) {
+                response.sendRedirect(request.getContextPath() + "/carrinho/listar");
+            } else {
+                response.sendRedirect(request.getContextPath() + "/carrinho/listar?error=removeFailed");
+            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            response.sendRedirect(request.getContextPath() + "/carrinho/listar?error=invalidInput");
         }
     }
 }
