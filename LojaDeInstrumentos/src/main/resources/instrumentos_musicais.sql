@@ -31,6 +31,8 @@ CREATE TABLE IF NOT EXISTS Carrinho (
     id_carrinho INT AUTO_INCREMENT,
     id_produto INT NOT NULL,
     quantidade INT NOT NULL,
+    nome_produto VARCHAR(255),
+	preco_total DECIMAL (10, 2), 
     PRIMARY KEY (id_carrinho),
     FOREIGN KEY (id_produto) REFERENCES Produtos(id_produto)
 );
