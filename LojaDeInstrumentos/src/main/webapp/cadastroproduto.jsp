@@ -62,7 +62,7 @@
                 </div>
                 <div class="form-group">
                     <label for="fotoUrl">URL da Imagem:</label>
-                    <input type="text" id="fotoUrl" name="fotoUrl" required><br>
+                    <input type="text" id="fotoUrl" name="fotoUrl"><br>
                 </div>
                 <div class="form-group descricao">
                     <label for="descricao">Descrição</label>

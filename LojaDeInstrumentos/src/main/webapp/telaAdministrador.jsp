@@ -23,11 +23,11 @@
     <div class="grid-container">
     
         <div class="grid-item">
-            <button class="buttom-style" onclick="window.location.href='cadastroproduto.jsp'">Cadastrar Produtos</button>
+            <button class="buttom-style" onclick="window.location.href='cadastroProduto.jsp'">Cadastrar Produtos</button>
             <button class="buttom-style" onclick="window.location.href='relatorios.jsp'">Relatórios</button>
         </div>
         <div class="grid-item">
-            <button class="buttom-style" onclick="window.location.href='consultarProdutos.jsp'">Consultar Produtos</button>
+			<button class="buttom-style" onclick="window.location.href='<%= request.getContextPath() %>/produtos/listar'">Consultar Produtos</button>
             <button class="buttom-style" onclick="window.location.href='consultarClientes.jsp'">Consultar Clientes</button>
         </div>
         

@@ -90,6 +90,7 @@ public class ProdutoDAO {
 	}
 
 	public boolean updateById(Produto objProduto) {
+
 	    boolean retorno = false;
 	    String sql = "UPDATE Produtos SET nome_produto = ?, descricao_produto = ?, categoria_produto = ?, marca_produto = ?, modelo_produto = ?, preco = ?, condicao_produto = ?, qtd_estoque = ?, imagemBase64 = ? WHERE id_produto = ?";
 	    

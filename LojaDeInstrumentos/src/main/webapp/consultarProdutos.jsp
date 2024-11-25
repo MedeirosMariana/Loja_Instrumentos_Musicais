@@ -16,7 +16,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.google.com/icon?family-Material+Icons" rel="stylesheet" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,400,0,0&icon_names=search" />
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="/LojaDeInstrumentos/css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
@@ -43,10 +43,10 @@
         <table>
             <thead>
                 <tr>
-                    <th>Categoria</th>
+                    <th>Nome</th>
                     <th>Marca</th>
                     <th>Modelo</th>
-                    <th>Condição</th>
+                    <th>Categoria</th>
                     <th>Estoque</th>
                     <th>Preço</th>
                     <th>Ações</th>
@@ -58,18 +58,18 @@
                         for (Produto produto : produtos) {
                 %>
                             <tr>
-                                <td><%= produto.getCategoria() %></td>
+                                <td><%= produto.getNomeProduto() %></td>
                                 <td><%= produto.getMarca() %></td>
                                 <td><%= produto.getModelo() %></td>
-                                <td><%= produto.getCondicao() %></td>
+                                <td><%= produto.getCategoria() %></td>
                                 <td><%= produto.getEstoque() %></td>
                                 <td><%= produto.getPreco() %></td>
                                 <td>
-                                    <a href="produtos/editar?idProduto=<%= produto.getIdProduto() %>">Editar</a>
-                                    <form action="produtos/deletar" method="post" style="display:inline;">
-                                        <input type="hidden" name="idProduto" value="<%= produto.getIdProduto() %>">
-                                        <button type="submit">Deletar</button>
-                                    </form>
+									<a href="<%= request.getContextPath() %>/produtos/editar?idProduto=<%= produto.getIdProduto() %>">Editar</a>
+                                    <form action="<%= request.getContextPath() %>/produtos/deletar" method="post" style="display:inline;">
+									    <input type="hidden" name="idProduto" value="<%= produto.getIdProduto() %>">
+									    <button type="submit">Deletar</button>
+									</form>
                                 </td>
                             </tr>
                 <% 

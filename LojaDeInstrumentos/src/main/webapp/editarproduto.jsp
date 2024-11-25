@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="/LojaDeInstrumentos/css/style.css">
 </head>
 <body>
     <header>
@@ -21,7 +21,7 @@
     </header>
     <div class="container">     
         <div class="container-cadastro-produto">
-            <form action="produtos/atualizar" method="post" enctype="multipart/form-data">
+            <form action="<%= request.getContextPath() %>/produtos/atualizar" method="post">
                 <% 
                     int idProduto = Integer.parseInt(request.getParameter("idProduto"));
                     ProdutoDAO produtoDAO = new ProdutoDAO();
@@ -68,8 +68,8 @@
                     <input type="number" id="qtdEstoque" name="qtdEstoque" value="<%= produto.getEstoque() %>" placeholder="Digite a qtd em estoque">
                 </div>
                 <div class="form-group">
-                    <label for="fotos">Fotos do Produto</label>
-                    <input type="file" id="fotos" name="fotos">
+                    <label for="fotoUrl">URL da Imagem:</label>
+    				<input type="text" id="fotoUrl" name="fotoUrl" value="${produto.imagemBase64}">
                 </div>
                 <div class="form-group descricao">
                     <label for="descricao">Descrição</label>

@@ -50,18 +50,27 @@ public class ProdutoController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getServletPath();
         try {
-            if ("/produtos/cadastro".equals(action)) {
+        	switch (action) {
+            case "/produtos/cadastro":
                 cadastrarProduto(request, response);
-            } else if ("/produtos/atualizar".equals(action)) {
+                break;
+            case "/produtos/atualizar":
                 atualizarProduto(request, response);
-            }
+                break;
+            case "/produtos/deletar":
+                deletarProduto(request, response);
+                break;
+            default:
+                response.sendRedirect(request.getContextPath() + "/produtos/listar");
+                break;
+        }
         } catch (SQLException ex) {
             throw new ServletException(ex);
         }
     }
 
     private void listar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-        List<Produto> produtos = produtoDAO.selectAll();
+    	List<Produto> produtos = produtoDAO.selectAll();
         request.setAttribute("produtos", produtos);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/consultarProdutos.jsp");
         dispatcher.forward(request, response);
@@ -71,16 +80,17 @@ public class ProdutoController extends HttpServlet {
         int idProduto = Integer.parseInt(request.getParameter("idProduto"));
         Produto produto = produtoDAO.selectById(idProduto);
         request.setAttribute("produto", produto);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/editarProduto.jsp");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/editarproduto.jsp");
         dispatcher.forward(request, response);
     }
 
     private void deletarProduto(HttpServletRequest request, HttpServletResponse response) throws SQLException, IOException {
-        int idProduto = Integer.parseInt(request.getParameter("idProduto"));
+
+    	int idProduto = Integer.parseInt(request.getParameter("idProduto"));
         boolean deleted = produtoDAO.deleteById(idProduto);
 
         if (deleted) {
-            response.sendRedirect("produtos/listar");
+        	response.sendRedirect(request.getContextPath() + "/produtos/listar");
         } else {
             response.sendRedirect("produtos/listar?error=true");
         }
@@ -101,7 +111,7 @@ public class ProdutoController extends HttpServlet {
         String qtdEstoque = request.getParameter("qtdEstoque");
         String descricao = request.getParameter("descricao");
         String fotoUrl = request.getParameter("fotoUrl");
-
+        
         Produto produto = new Produto();
         produto.setNomeProduto(nomeProduto);
         produto.setCategoria(categoria);
@@ -116,42 +126,55 @@ public class ProdutoController extends HttpServlet {
         boolean produtoCadastrado = produtoDAO.insert(produto);
 
         if (produtoCadastrado) {
-            response.sendRedirect("produtos/listar");
+        	response.sendRedirect(request.getContextPath() + "/produtos/listar");
+            
         } else {
             response.sendRedirect("produtos/novo?error=true");
         }
     }
 
     private void atualizarProduto(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
-        int idProduto = Integer.parseInt(request.getParameter("idProduto"));
-        String nomeProduto = request.getParameter("nomeProduto");
-        String categoria = request.getParameter("categoria");
-        String marca = request.getParameter("marca");
-        String modelo = request.getParameter("modelo");
-        String preco = request.getParameter("preco");
-        String condicao = request.getParameter("condicao");
-        String qtdEstoque = request.getParameter("qtdEstoque");
-        String descricao = request.getParameter("descricao");
-        String fotoUrl = request.getParameter("fotoUrl");
+        try {
+            int idProduto = Integer.parseInt(request.getParameter("idProduto"));
+            String nomeProduto = request.getParameter("nomeProduto");
+            String categoria = request.getParameter("categoria");
+            String marca = request.getParameter("marca");
+            String modelo = request.getParameter("modelo");
+            String preco = request.getParameter("preco");
+            String condicao = request.getParameter("condicao");
+            String qtdEstoque = request.getParameter("qtdEstoque");
+            String descricao = request.getParameter("descricao");
+            String fotoUrl = request.getParameter("fotoUrl");
 
-        Produto produto = new Produto();
-        produto.setIdProduto(idProduto);
-        produto.setNomeProduto(nomeProduto);
-        produto.setCategoria(categoria);
-        produto.setMarca(marca);
-        produto.setModelo(modelo);
-        produto.setPreco(Double.parseDouble(preco));
-        produto.setCondicao(condicao);
-        produto.setEstoque(Integer.parseInt(qtdEstoque));
-        produto.setDescricao(descricao);
-        produto.setImagemBase64(fotoUrl);
+            if (nomeProduto == null || nomeProduto.isEmpty() || preco == null || preco.isEmpty()) {
+                throw new IllegalArgumentException("Nome e preço são obrigatórios.");
+            }
 
-        boolean produtoAtualizado = produtoDAO.updateById(produto);
+            Produto produto = new Produto();
+            produto.setIdProduto(idProduto);
+            produto.setNomeProduto(nomeProduto);
+            produto.setCategoria(categoria);
+            produto.setMarca(marca);
+            produto.setModelo(modelo);
+            produto.setPreco(Double.parseDouble(preco));
+            produto.setCondicao(condicao);
+            produto.setEstoque(qtdEstoque != null && !qtdEstoque.isEmpty() ? Integer.parseInt(qtdEstoque) : 0);
+            produto.setDescricao(descricao);
+            produto.setImagemBase64(fotoUrl);
 
-        if (produtoAtualizado) {
-            response.sendRedirect("produtos/listar");
-        } else {
-            response.sendRedirect("produtos/atualizar?idProduto=" + idProduto + "&error=true");
+            boolean produtoAtualizado = produtoDAO.updateById(produto);
+
+            if (produtoAtualizado) {
+                response.sendRedirect(request.getContextPath() + "/produtos/listar");
+            } else {
+                response.sendRedirect(request.getContextPath() + "/produtos/atualizar?idProduto=" + idProduto + "&error=true");
+            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            response.sendRedirect(request.getContextPath() + "/produtos/listar?error=invalidNumber");
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            response.sendRedirect(request.getContextPath() + "/produtos/listar?error=missingFields");
         }
     }
 }
