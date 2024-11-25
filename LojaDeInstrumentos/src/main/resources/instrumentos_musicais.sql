@@ -25,3 +25,12 @@ CREATE TABLE IF NOT EXISTS Produtos(
     
     PRIMARY KEY (id_produto)
 );
+
+
+CREATE TABLE IF NOT EXISTS Carrinho (
+    id_carrinho INT AUTO_INCREMENT,
+    id_produto INT NOT NULL,
+    quantidade INT NOT NULL,
+    PRIMARY KEY (id_carrinho),
+    FOREIGN KEY (id_produto) REFERENCES Produtos(id_produto)
+);
