@@ -38,4 +38,12 @@ CREATE TABLE IF NOT EXISTS Carrinho (
 );
 
 
-
+CREATE TABLE IF NOT EXISTS NotaFiscal (
+	id_item_nota INT AUTO_INCREMENT,
+	id_produto INT NOT NULL,
+	nome_produto VARCHAR(255) NOT NULL,
+	qtd_produto INT NOT NULL,
+	preco_total DECIMAL (10, 2) NOT NULL,
+	PRIMARY KEY(id_item_nota),
+	FOREIGN KEY (id_produto) REFERENCES Produtos(id_produto)
+);
