@@ -36,3 +36,6 @@ CREATE TABLE IF NOT EXISTS Carrinho (
     PRIMARY KEY (id_carrinho),
     FOREIGN KEY (id_produto) REFERENCES Produtos(id_produto)
 );
+
+
+
