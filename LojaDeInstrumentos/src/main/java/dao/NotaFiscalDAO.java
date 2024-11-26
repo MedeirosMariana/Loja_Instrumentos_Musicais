@@ -22,7 +22,7 @@ public class NotaFiscalDAO {
         // Primeiro, insiro a nota fiscal para gerar o idNotaFiscal
         String sqlNota = "INSERT INTO NotaFiscal (dataNotaFiscal) VALUES (?)";
 
-        try (Connection conn = ConnectionFactory.getConexao();
+        try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement comandoNota = conn.prepareStatement(sqlNota,
                      Statement.RETURN_GENERATED_KEYS)) {
 
