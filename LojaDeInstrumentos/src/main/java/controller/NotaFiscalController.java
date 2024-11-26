@@ -34,7 +34,7 @@ String action = request.getServletPath();
 		try {
 			switch(action) {
 			case "/notafiscal/cadastro":
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/views/notafiscal/gravar-nota.jsp");
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/gravar-nota.jsp");
 				dispatcher.forward(request, response);
 				break;
 			case "/notafiscal/novo":
@@ -42,7 +42,7 @@ String action = request.getServletPath();
 				break;
 
 			default:
-				RequestDispatcher dispatcher2 = request.getRequestDispatcher("/views/notafiscal/gravar-nota.jsp");
+				RequestDispatcher dispatcher2 = request.getRequestDispatcher("/gravar-nota.jsp");
 				dispatcher2.forward(request, response);
 				break;
 			
@@ -84,7 +84,7 @@ String action = request.getServletPath();
         
         request.setAttribute("sucesso", "Nota fiscal nº" + numeroNota +  " cadastrada com sucesso!");
         
-        request.getRequestDispatcher("/views/notafiscal/gravar-nota.jsp").forward(request, response);
+        request.getRequestDispatcher("/gravar-nota.jsp").forward(request, response);
         
 	}
 
