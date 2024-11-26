@@ -8,22 +8,45 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.Carrinho;
+import model.Produto;
 import utils.ConnectionFactory;
 
 public class CarrinhoDAO {
 
-    public boolean adicionarItem(Carrinho item) throws SQLException {
-        String sql = "INSERT INTO Carrinho (id_produto, quantidade) VALUES (?, ?)";
-        try (Connection conn = ConnectionFactory.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+	public boolean adicionarItem(Carrinho item) throws SQLException {
+	    Produto produto = buscarProdutoPorId(item.getIdProduto());
+	    
+	    if (produto == null) {
+	        System.out.println("Produto não encontrado. ID: " + item.getIdProduto());
+	        return false;
+	    }
+	    
+	    double precoTotal = produto.getPreco() * item.getQuantidade();
 
-            stmt.setInt(1, item.getIdProduto());
-            stmt.setInt(2, item.getQuantidade());
-            return stmt.executeUpdate() > 0;
-        }
-    }
+	    String sql = "INSERT INTO Carrinho (id_produto, quantidade, preco_total, nome_produto) VALUES (?, ?, ?, ?)";
+	    
+	    try (Connection conn = ConnectionFactory.getConnection();
+	         PreparedStatement stmt = conn.prepareStatement(sql)) {
+	        
+	        stmt.setInt(1, item.getIdProduto());
+	        stmt.setInt(2, item.getQuantidade());
+	        stmt.setDouble(3, precoTotal);  
+	        stmt.setString(4, produto.getNomeProduto());
 
-    public boolean atualizarQuantidade(int idCarrinho, int novaQuantidade) throws SQLException {
+	        int rowsAffected = stmt.executeUpdate();
+	        if (rowsAffected > 0) {
+	            return true; 
+	        } else {
+	            System.out.println("Nenhuma linha inserida.");
+	            return false;
+	        }
+	    } catch (SQLException e) {
+	        System.err.println("Erro ao adicionar item no carrinho: " + e.getMessage());
+	        throw e; 
+	    }
+	}
+	
+	public boolean atualizarQuantidade(int idCarrinho, int novaQuantidade) throws SQLException {
         String sql = "UPDATE Carrinho SET quantidade = ? WHERE id_carrinho = ?";
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -33,8 +56,8 @@ public class CarrinhoDAO {
             return stmt.executeUpdate() > 0;
         }
     }
-
-    public boolean removerItem(int idCarrinho) throws SQLException {
+	
+	public boolean removerItem(int idCarrinho) throws SQLException {
         String sql = "DELETE FROM Carrinho WHERE id_carrinho = ?";
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -68,5 +91,23 @@ public class CarrinhoDAO {
             }
         }
         return itens;
+    }
+    
+    public Produto buscarProdutoPorId(int idProduto) throws SQLException {
+        String sql = "SELECT id_produto, nome_produto, preco FROM Produtos WHERE id_produto = ?";
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, idProduto);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                Produto produto = new Produto();
+                produto.setIdProduto(rs.getInt("id_produto"));
+                produto.setNomeProduto(rs.getString("nome_produto"));
+                produto.setPreco(rs.getDouble("preco"));
+                return produto;
+            }
+        }
+        return null;
     }
 }

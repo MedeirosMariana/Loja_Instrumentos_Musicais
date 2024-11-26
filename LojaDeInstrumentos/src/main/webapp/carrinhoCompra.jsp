@@ -48,8 +48,8 @@
           <div class="item-quantity">
             <form action="<%= request.getContextPath() %>/carrinho/atualizar" method="post" style="display: inline;">
               <input type="hidden" name="idCarrinho" value="<%= item.getIdCarrinho() %>">
-              <button type="submit" name="quantidade" value="<%= item.getQuantidade() - 1 %>" class="quantity-btn">-</button>
-              <input type="text" value="<%= item.getQuantidade() %>" readonly />
+              <button type="submit" name="quantidade" value="<%= item.getQuantidade() - 1 %>" class="quantity-btn" <%= (item.getQuantidade() > 1) ? "" : "disabled" %>>-</button>
+              <input type="text" name="quantidade" value="<%= item.getQuantidade() %>" readonly />
               <button type="submit" name="quantidade" value="<%= item.getQuantidade() + 1 %>" class="quantity-btn">+</button>
             </form>
           </div>
@@ -79,7 +79,6 @@
         <button class="checkout-btn">Finalizar Compra</button>
       </aside>
     </main>
-
     <!-- RodapÃ© -->
     <footer></footer>
   </div>

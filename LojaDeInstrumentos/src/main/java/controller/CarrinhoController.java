@@ -12,6 +12,7 @@ import java.util.List;
 
 import dao.CarrinhoDAO;
 import model.Carrinho;
+import model.Produto;
 
 @WebServlet(name = "carrinho", urlPatterns = { "/carrinho", "/carrinho/adicionar", "/carrinho/listar", "/carrinho/atualizar", "/carrinho/remover" })
 public class CarrinhoController extends HttpServlet {
@@ -72,9 +73,19 @@ public class CarrinhoController extends HttpServlet {
             int idProduto = Integer.parseInt(request.getParameter("idProduto"));
             int quantidade = Integer.parseInt(request.getParameter("quantidade"));
 
+            Produto produto = carrinhoDAO.buscarProdutoPorId(idProduto);
+            if (produto == null) {
+                response.sendRedirect(request.getContextPath() + "/carrinho/listar?error=produtoNaoEncontrado");
+                return;
+            }
+            
+            double precoTotal = produto.getPreco() * quantidade;
+            
             Carrinho item = new Carrinho();
             item.setIdProduto(idProduto);
             item.setQuantidade(quantidade);
+            item.setPrecoTotal(precoTotal);
+            item.setNomeProduto(produto.getNomeProduto());
 
             boolean itemAdicionado = carrinhoDAO.adicionarItem(item);
 
@@ -88,7 +99,7 @@ public class CarrinhoController extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/carrinho/listar?error=invalidInput");
         }
     }
-
+    
     private void atualizarItem(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         try {
             int idCarrinho = Integer.parseInt(request.getParameter("idCarrinho"));
