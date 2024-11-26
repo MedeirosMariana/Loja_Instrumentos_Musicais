@@ -24,8 +24,8 @@
                 <input type="text" name="vetorIdProdutos[]" required>
                 <label for="qtdProduto">Quantidade:</label>
                 <input type="number" name="vetorQtdProdutos[]" required>
-                <label for="valorUnitario">Valor Unitário:</label>
-                <input type="number" name="vetorValoresUnitarios[]" required>
+                <label for="precoTotal">Preço Total:</label>
+                <input type="number" name="vetorPrecoTotal[]" required>
                 <br><br>
             </div>
         </div>
@@ -49,8 +49,8 @@
                 <label for="qtdProduto">Quantidade:</label>
                 <input type="number" name="vetorQtdProdutos[]" required>
                 
-                <label for="valorUnitario">Valor Unitário:</label>
-                <input type="number" name="vetorValoresUnitarios[]" required>
+                <label for="precoTotal">Preço Total:</label>
+                <input type="number" name="vetorPrecoTotal[]" required>
                 
                 <br><br>
             `;

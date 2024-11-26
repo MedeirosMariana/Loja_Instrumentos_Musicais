@@ -14,45 +14,45 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 
 public class NotaFiscalDAO {
-	
-    public int salvar(String dataNota, String[] vetorIdProdutos, String[] vetorQtdProdutos, String[] vetorValoresUnitarios) {
 
-    	int retornoNumeroNota = 0;
-    	
-        // Primeiro, insero a nota fiscal para gerar o idNotaFiscal
+    public int salvar(String dataNota, String[] vetorIdProdutos, String[] vetorQtdProdutos, String[] vetorPrecoTotal) {
+
+        int retornoNumeroNota = 0;
+
+        // Primeiro, insiro a nota fiscal para gerar o idNotaFiscal
         String sqlNota = "INSERT INTO NotaFiscal (dataNotaFiscal) VALUES (?)";
-        
+
         try (Connection conn = ConnectionFactory.getConexao();
-            PreparedStatement comandoNota = conn.prepareStatement(sqlNota,
-            								Statement.RETURN_GENERATED_KEYS)) {
-        	
-        	comandoNota.setDate(1, java.sql.Date.valueOf(dataNota));
-        	comandoNota.executeUpdate();
+             PreparedStatement comandoNota = conn.prepareStatement(sqlNota,
+                     Statement.RETURN_GENERATED_KEYS)) {
+
+            comandoNota.setDate(1, java.sql.Date.valueOf(dataNota));
+            comandoNota.executeUpdate();
 
             // Recupero o ID gerado da nota fiscal
             ResultSet rs = comandoNota.getGeneratedKeys();
             if (rs.next()) {
-            	//Resgato o id gerado da nota fiscal para gravar na tabela ItemNotaFiscal
+                // Resgato o id gerado da nota fiscal para gravar na tabela ItemNotaFiscal
                 int idNota = rs.getInt(1);
                 retornoNumeroNota = idNota;
 
-                //Para cada item no vetor, insiro na tabela ItemNotaFiscal
-                String sqlItem = "INSERT INTO ItemNotaFiscal (idNotaFiscal, idProduto, qtdProduto, valorUnitario) VALUES (?, ?, ?, ?)";
+                // Para cada item no vetor, insiro na tabela ItemNotaFiscal
+                String sqlItem = "INSERT INTO ItemNotaFiscal (idNotaFiscal, idProduto, qtdProduto, precoTotal) VALUES (?, ?, ?, ?)";
                 try (PreparedStatement comandoItem = conn.prepareStatement(sqlItem)) {
                     for (int i = 0; i < vetorIdProdutos.length; i++) {
-                    	comandoItem.setInt(1, idNota);
-                    	comandoItem.setString(2, vetorIdProdutos[i]);
-                    	comandoItem.setInt(3, Integer.parseInt(vetorQtdProdutos[i]));
-                    	comandoItem.setDouble(4, Double.parseDouble(vetorValoresUnitarios[i]));
-                    	comandoItem.executeUpdate();
+                        comandoItem.setInt(1, idNota);
+                        comandoItem.setString(2, vetorIdProdutos[i]);
+                        comandoItem.setInt(3, Integer.parseInt(vetorQtdProdutos[i]));
+                        comandoItem.setDouble(4, Double.parseDouble(vetorPrecoTotal[i])); // Usando precoTotal
+                        comandoItem.executeUpdate();
                     }
-                    
+
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        
+
         return retornoNumeroNota;
     }
 }
