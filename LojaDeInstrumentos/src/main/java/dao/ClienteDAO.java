@@ -92,18 +92,16 @@ public class ClienteDAO {
 
     public List<Cliente> selectAll() {
         List<Cliente> clientes = new ArrayList<>();
-        String sql = "SELECT * FROM Clientes";
+        String sql = "SELECT idCliente, nome, email FROM Clientes";
 
         try (Connection conexao = ConnectionFactory.getConnection();
              PreparedStatement ps = conexao.prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
-            while (rs.next()) {
+        	while (rs.next()) {
                 Cliente cliente = new Cliente();
-                cliente.setIdCliente(rs.getInt("id_cliente"));
+                cliente.setIdCliente(rs.getInt("idCliente"));
                 cliente.setNome(rs.getString("nome"));
                 cliente.setEmail(rs.getString("email"));
-                cliente.setSenha(rs.getString("senha"));
-
                 clientes.add(cliente);
             }
         } catch (SQLException e) {

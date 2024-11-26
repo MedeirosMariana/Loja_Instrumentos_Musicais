@@ -54,8 +54,6 @@
 				<tr>
 					<th>Nome</th>
 					<th>Email</th>
-					<th>Senha</th>
-					<th>Ações</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -66,14 +64,6 @@
 							<tr>
 								<td><%= cliente.getNome() %></td>
 								<td><%= cliente.getEmail() %></td>
-								<td><%= cliente.getSenha() %></td>
-								<td>
-									<a href="<%= request.getContextPath() %>/clientes/editar?idCliente=<%= cliente.getIdCliente() %>">Editar</a>
-									<form action="<%= request.getContextPath() %>/clientes/deletar" method="post" style="display:inline;">
-										<input type="hidden" name="idCliente" value="<%= cliente.getIdCliente() %>">
-										<button type="submit">Deletar</button>
-									</form>
-								</td>
 							</tr>
 				<%
 						}

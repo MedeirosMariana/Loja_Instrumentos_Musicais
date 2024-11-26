@@ -28,7 +28,7 @@
         </div>
         <div class="grid-item">
 			<button class="buttom-style" onclick="window.location.href='<%= request.getContextPath() %>/produtos/listar'">Consultar Produtos</button>
-            <button class="buttom-style" onclick="window.location.href='consultarClientes.jsp'">Consultar Clientes</button>
+        	<button class="buttom-style" onclick="window.location.href='<%= request.getContextPath() %>/clientes/listar'">Consultar Clientes</button>
         </div>
         
     </div>
