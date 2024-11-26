@@ -29,7 +29,7 @@ public class ClienteController extends HttpServlet {
             if ("/listar".equals(action)) {
                 listarClientes(request, response);
             } else {
-                listarClientes(request, response); // Fallback para listar
+                listarClientes(request, response);
             }
         } catch (SQLException ex) {
             throw new ServletException(ex);
@@ -42,7 +42,9 @@ public class ClienteController extends HttpServlet {
 	}
 	
 	private void listarClientes(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
+        System.out.println("Cheguei no do get");
         List<Cliente> clientes = clienteDAO.selectAll();
+        System.out.println("Clientes encontrados: " + clientes.size());
         request.setAttribute("clientes", clientes);
 
         RequestDispatcher dispatcher = request.getRequestDispatcher("/consultarClientes.jsp");

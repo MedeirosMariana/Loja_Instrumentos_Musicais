@@ -90,22 +90,18 @@ public class ClienteDAO {
         return cliente;
     }
 
-    public List<Cliente> selectAll() {
+    public List<Cliente> selectAll() throws SQLException {
         List<Cliente> clientes = new ArrayList<>();
-        String sql = "SELECT idCliente, nome, email FROM Clientes";
-
+        String sql = "SELECT * FROM clientes";
         try (Connection conexao = ConnectionFactory.getConnection();
-             PreparedStatement ps = conexao.prepareStatement(sql);
-             ResultSet rs = ps.executeQuery()) {
-        	while (rs.next()) {
+             Statement stmt = conexao.createStatement(); 
+             ResultSet rs = stmt.executeQuery(sql)) { 
+            while (rs.next()) {
                 Cliente cliente = new Cliente();
-                cliente.setIdCliente(rs.getInt("idCliente"));
                 cliente.setNome(rs.getString("nome"));
                 cliente.setEmail(rs.getString("email"));
                 clientes.add(cliente);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
         return clientes;
     }

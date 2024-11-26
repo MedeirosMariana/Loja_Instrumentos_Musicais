@@ -35,7 +35,7 @@
 	<div class="container">
 		<!-- Seção de busca -->
 		<div class="search-section">
-			<form action="<%= request.getContextPath() %>/consultarClientes" method="post">
+			<form action="<%= request.getContextPath() %>/clientes/listar" method="get">
 				<label for="searchDate"
 					style="font-size: 30px; color: #8C441B; font-weight: 700;">Consulte clientes por nome ou ID</label><br>
 				<input type="text" id="searchDate" name="searchDate"
