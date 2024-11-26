@@ -67,8 +67,4 @@
     <url-pattern>/produtos/editar</url-pattern>
     <url-pattern>/produtos/atualizar</url-pattern>
   </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>CreateAccountServlet</servlet-name>
-    <url-pattern>/createAccountServelet</url-pattern>
-  </servlet-mapping>
 </web-app>
