@@ -74,9 +74,11 @@ person
 				<img src="imagens/imgInstrumentos/cordas.png" alt="Violão">
 			</div>
 			<p>Cordas</p>
-			<!-- Texto agora fora do "card" -->
-			<button>Comprar</button>
-			<!-- Botão agora fora do "card" -->
+			<form action="<%= request.getContextPath() %>/carrinho/adicionar" method="post">
+		        <!-- Campo oculto para passar o ID do produto -->
+		        <input type="hidden" name="idProduto" value="1">
+		        <button type="submit">Comprar</button>
+		    </form>
 		</div>
 
 		<div class="instrument-section">
