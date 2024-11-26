@@ -77,7 +77,7 @@ person
 			<form action="<%= request.getContextPath() %>/carrinho/adicionar" method="post">
 		        <!-- Campo oculto para passar o ID do produto -->
 		        <input type="hidden" name="idProduto" value="1">
-		        <button type="submit">Comprar</button>
+		        <button type="submit"onclick="window.location.href='vendaCordas.jsp'">Comprar</button>
 		    </form>
 		</div>
 
@@ -86,7 +86,7 @@ person
 				<img src="imagens/imgInstrumentos/percussao.png" alt="Percussão">
 			</div>
 			<p>Percussão</p>
-			<button>Comprar</button>
+			<button onclick="window.location.href='vendaPercussao.jsp'">Comprar</button>
 		</div>
 
 		<div class="instrument-section">
@@ -94,7 +94,7 @@ person
 				<img src="imagens/imgInstrumentos/teclado.png" alt="Teclado">
 			</div>
 			<p>Teclado</p>
-			<button>Comprar</button>
+			<button onclick="window.location.href='vendaTeclado.jsp'">Comprar</button>
 		</div>
 
 		<div class="instrument-section">
@@ -102,7 +102,7 @@ person
 				<img src="imagens/imgInstrumentos/sopro.png" alt="Sopro">
 			</div>
 			<p>Sopro</p>
-			<button>Comprar</button>
+			<button onclick="window.location.href='vendaSopro.jsp'">Comprar</button>
 		</div>
 
 		<div class="instrument-section">
@@ -110,7 +110,7 @@ person
 				<img src="imagens/imgInstrumentos/eletronicos.png" alt="Eletrônicos">
 			</div>
 			<p>Eletrônicos</p>
-			<button>Comprar</button>
+			<button onclick="window.location.href='vendaEletronico.jsp'">Comprar</button>
 		</div>
 	</main>
 </body>
